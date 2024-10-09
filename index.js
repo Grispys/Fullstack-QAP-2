@@ -1,10 +1,13 @@
 const express = require('express');
+const { getQuestion } = require('./utils/mathUtilities');
 const app = express();
 const port = 3000;
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true })); // For parsing form data
 app.use(express.static('public')); // To serve static files (e.g., CSS)
+
+
 
 
 //Some routes required for full functionality are missing here. Only get routes should be required
@@ -17,7 +20,8 @@ app.get('/leaderboards', (req, res) => {
 });
 
 app.get('/quiz', (req, res) => {
-    res.render('quiz');
+    const theQuiz = getQuestion();
+    res.render('quiz',{theQuiz:theQuiz});
 });
 
 //Handles quiz submissions.

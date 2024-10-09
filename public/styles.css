@@ -46,3 +46,9 @@ body {
 .index_container .navigation__container :last-child {
     margin-right: 0px
 }
+
+h3{
+    margin-top: 200px;
+    font-size: 90px;
+    margin-left: -300px;
+}
