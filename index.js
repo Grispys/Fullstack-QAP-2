@@ -12,6 +12,10 @@ app.get('/', (req, res) => {
     res.render('index');
 });
 
+app.get('/leaderboards', (req, res) => {
+    res.render('leaderboards');
+});
+
 app.get('/quiz', (req, res) => {
     res.render('quiz');
 });
