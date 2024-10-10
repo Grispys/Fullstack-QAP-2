@@ -18,7 +18,8 @@ app.use(session({
 
 //Some routes required for full functionality are missing here. Only get routes should be required
 app.get('/', (req, res) => {
-    res.render('index');
+    const currentStreak = getCurrentStreak();
+    res.render('index', {currentStreak});
 });
 
 app.get('/leaderboards', (req, res) => {
