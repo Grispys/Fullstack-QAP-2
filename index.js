@@ -1,7 +1,7 @@
 // i looked up on stackoverflow how one would keep the details from a function call in stasis, so they can be retrieved in another route. This is how i check the questions answer.
 const session = require('express-session')
 const express = require('express');
-const { getQuestion } = require('./utils/mathUtilities');
+const { getQuestion, isCorrectAnswer, getCurrentStreak} = require('./utils/mathUtilities');
 const app = express();
 const port = 3000;
 
@@ -25,27 +25,35 @@ app.get('/leaderboards', (req, res) => {
     res.render('leaderboards');
 });
 
+app.get('/incorrect', (req, res) =>{
+    res.render('incorrect');
+});
+
 app.get('/quiz', (req, res) => {
     const theQuiz = getQuestion();
     req.session.theQuiz = theQuiz;
     res.render('quiz',{theQuiz:theQuiz});
 });
 
+app.get('/correct', (req, res) =>{
+    const currentStreak = getCurrentStreak();
+    res.render('correct', {currentStreak});
+});
+
+
+
 //Handles quiz submissions.
 app.post('/quiz', (req, res) => {
     const { answer } = req.body;
     const theQuiz = req.session.theQuiz;
-    if(answer != theQuiz.quizAnswer){
-        console.log(`WRONG. CORRECT ANSWER IS ${theQuiz.quizAnswer}`);
+   
+    let theTruth = isCorrectAnswer(answer, theQuiz)
+    if (theTruth.theTruth ===false){
+        res.redirect('/incorrect');
     }else{
-        console.log(`CORRECT. THE ANSWER IS ${answer}`);
+        res.redirect('/correct');
     }
     
-
-    //answer will contain the value the user entered on the quiz page
-    //Logic must be added here to check if the answer is correct, then track the streak and redirect properly
-    //By default we'll just redirect to the homepage again.
-    res.redirect('/');
 });
 
 // Start the server

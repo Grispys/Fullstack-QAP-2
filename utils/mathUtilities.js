@@ -3,6 +3,13 @@
  * 
  * @returns {} The randomly generated math question
  */
+
+let currentStreak = 0;
+
+function getCurrentStreak() {
+    return currentStreak;
+  }
+
 function getQuestion() {
     let x = Math.floor(Math.random() * 100) +1
     let y = Math.floor(Math.random() * 100 ) +1
@@ -37,11 +44,24 @@ function getQuestion() {
  * @param {*} answer The potential answer
  * @returns {boolean} True if the answer was correct, false otherwise.
  */
-function isCorrectAnswer(question, answer) {
-    return false;
+function isCorrectAnswer(answer, theQuiz) {
+    if (answer != theQuiz.quizAnswer) {
+        console.log(`WRONG. CORRECT ANSWER IS ${theQuiz.quizAnswer}`);
+        currentStreak = 0;
+        console.log(currentStreak)
+        return { theTruth: false, currentStreak: currentStreak }
+        
+    } else {
+        console.log(`CORRECT. THE ANSWER IS ${answer}`);
+        currentStreak += 1;
+        console.log(currentStreak)
+        return { theTruth: true, currentStreak: currentStreak }; // Correct answer
+    }
 }
+    
 
 module.exports = {
     getQuestion,
-    isCorrectAnswer
+    isCorrectAnswer,
+    getCurrentStreak
 }
