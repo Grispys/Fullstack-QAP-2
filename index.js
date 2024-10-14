@@ -1,9 +1,11 @@
 // i looked up on stackoverflow how one would keep the details from a function call in stasis, so they can be retrieved in another route. This is how i check the questions answer.
 const session = require('express-session')
 const express = require('express');
-const { getQuestion, isCorrectAnswer, getCurrentStreak} = require('./utils/mathUtilities');
+const { getQuestion, isCorrectAnswer, getCurrentStreak, addToBoard} = require('./utils/mathUtilities');
+const {leaderboard} = require('./utils/mathUtilities')
 const app = express();
 const port = 3000;
+
 
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true })); // For parsing form data
@@ -23,8 +25,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/leaderboards', (req, res) => {
-    res.render('leaderboards');
+    res.render('leaderboards', {leaderboard});
 });
+
+
+
 
 app.get('/incorrect', (req, res) =>{
     res.render('incorrect');

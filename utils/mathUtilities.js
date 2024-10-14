@@ -20,24 +20,26 @@ function addToBoard(currentStreak){
     };
 
     if (leaderboard.length < 10) {
-        // the leaderboard has less than 10 entries just add it immediately
+        // leaderboard has less than 10 items just add the new score directly
         leaderboard.push(scoreToAdd);
-    }else{
+    } else {
         let lowestStreak = Math.min(...leaderboard.map(entry => entry.currentStreak));
-        // if da new score is higher than the lowest score, replace it and resort later
+        //if new score higher than lowest on leaderboard repolace that one
         if (currentStreak > lowestStreak) {
             let lowestIndex = leaderboard.findIndex(entry => entry.currentStreak === lowestStreak);
             leaderboard[lowestIndex] = scoreToAdd;
-        }else{
+        } else {
             console.log("Score too low to put on the leaderboard");
         }
     }
-    // sort em
-    leaderboard.sort((a, b) => b.currentStreak - a.currentStreak)
-    //only top 10 entries remain
-    leaderboard = leaderboard.slice(0, 10)
+    
+    // sort so that the highest number is at the top of the leaderbaord
+    leaderboard.sort((a, b) => b.currentStreak - a.currentStreak);
+    
+    // keep only the top 10 entries by slicing away the lowest
+    leaderboard.splice(10); 
 
-    console.log(leaderboard)
+    console.log(leaderboard);
 }
 
 
@@ -100,5 +102,7 @@ function isCorrectAnswer(answer, theQuiz) {
 module.exports = {
     getQuestion,
     isCorrectAnswer,
-    getCurrentStreak
+    getCurrentStreak,
+    leaderboard,
+    addToBoard
 }
